@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <title>Quoting Dojo Quotes</title>
+    <script src='../node_modules/datetimejs/datetime.js'></script>
+  </head>
+  <body>
+    <h1>Here are the awesome quotes</h1>
+    <div id='quotesDiv'>
+      <% if (quotes) { %>
+        <% for (var idx in quotes) { %>
+          <p>"<%= quotes[idx].quote %>"</p>
+          <p>-<%= quotes[idx].name %> on <%= new Date(quotes[idx].createdAt).toLocaleDateString("en-US", {hour: "2-digit", minute: "2-digit", month: "long", day: "2-digit", year: "numeric"}) %></p>
+          <p>Likes: <%= quotes[idx].likes %></p>
+          <p><form action='/likes/<%= quotes[idx]._id %>' method='POST'><input type='submit' value='Like'></form></p>
+          <hr>
+        <% } %>
+      <% } %>
+    </div><!-- quotes div -->
+  </body>
+</html>
