@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <title>Dojo Message Board</title>
+  </head>
+  <body>
+    <h1>The Dojo Message Board</h1>
+    <hr>
+    <div id='mErrors'>
+      <% if (typeof(mErrors) != 'undefined') { %>
+        <% for (var x in mErrors) { %>
+          <p><%= mErrors[x].message %></p>
+        <% } %>
+      <% } %>
+    </div><!-- mErrors -->
+    <div id='addMessage'>
+      <form action='/messages' method='POST'>
+        <label for='mName'>Name: </label>
+        <input type='text' id='mName' name='name'>
+        <label for='mMessage'>Message: </label>
+        <textarea id='mMessage' name='message'></textarea>
+        <input type='submit' value='Post Message'>
+      </form>
+    </div><!-- addMessage -->
+
+    <div id='showMessages'>
+      <% if (typeof(cErrors) != 'undefined') { %>
+        <% for (var y in cErrors) { %>
+          <p><%= cErrors[y].message %></p>
+        <% } %>
+      <% } %>
+      
+      <% if (typeof(messages) != 'undefined') { %>
+        <% for (var idx in messages) { %>
+          <h3>Name: <%= messages[idx].name %></h3>
+          <h3>Message: <%= messages[idx].message %></h3>
+          <div class='commentDivs' style="border: 1px dashed blue;">
+            <% if (typeof(messages[idx].comments) != 'undefined') { %>
+              <% var mComments = messages[idx].comments %>
+              <% for (var i=0; i<mComments.length; i++) { %>
+                <h5>Name: <%= mComments[i].name %></h5>
+                <h5>Comment: <%= mComments[i].comment %></h5>
+              <% } %>
+            <% } %>
+
+            <form action='/comments/<%= messages[idx]._id %>' method='POST'>
+              <label for='cName'>Name: </label>
+              <input type='text' id='cName' name='name'>
+              <label for='cComment'>Comment: </label>
+              <textarea id='cComment' name='comment'></textarea>
+              <input type='submit' value='Post Comment'>
+            </form>
+          </div><!-- commentDivs -->
+        <% } %>
+      <% } %>
+    </div><!-- showMessages -->
+  </body>
+</html>
