@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <title>Wolves</title>
+  </head>
+  <body>
+    <h1>Wolves!</h1>
+    <div id='allWolves'>
+      <table>
+        <thead>
+          <tr>
+            <th>Name </th>
+            <th>Age </th>
+            <th>Status </th>
+            <th>Edit </th>
+            <th>Delete </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (wolves) { %>
+            <% for (var wolf in wolves) { %>
+              <tr>
+                <td><a href='/wolves/<%= wolves[wolf]._id %>'><%= wolves[wolf].name %></a></td>
+                <td><%= wolves[wolf].age %></td>
+                <td><%= wolves[wolf].status %></td>
+                <td><a href='/wolves/<%= wolves[wolf]._id %>/edit'>Edit</a></td>
+                <td><form action='/wolves/<%= wolves[wolf]._id %>/destroy' method='POST'><input type='submit' value='delete'></form></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+    </div><!-- allWolves -->
+    <p><a href='/wolves/new'>Add Wolf</a></p>
+  </body>
+</html>
