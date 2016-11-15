@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='myApp'>
+  <head>
+    <meta charset="utf-8">
+    <title>Controlling User</title>
+    <script src='./bower_components/angular/angular.js' charset='utf-8'></script>
+    <script>
+      var myApp = angular.module('myApp', []);
+
+      myApp.controller('userController', ['$scope', function($scope){
+        $scope.users = [];
+
+        $scope.create = function(){
+          $scope.newUser.date = new Date();
+          $scope.users.push($scope.newUser);
+          $scope.newUser = {};
+        };
+
+        $scope.delete = function(index){
+          $scope.users.splice(index, 1);
+        };
+
+      }]);
+    </script>
+  </head>
+  <body>
+    <h1>Users Controller</h1>
+    <div ng-controller='userController'>
+      <form ng-submit='create()'>
+        <label>First Name <input type='text' ng-model='newUser.firstName'></label>
+        <label>Last Name <input type='text' ng-model='newUser.lastName'></label>
+        <label>Favorite Language <input type='text' ng-model='newUser.favoriteLanguage'></label>
+        <input type='submit' value='Create User'>
+      </form>
+
+      <p>Filter by name <input type='text' ng-model='name_filter'></p>
+      <p>Sort by <select ng-model='order_filter'>
+                    <option value='firstName'>First Name</option>
+                    <option value='lastName'>Last Name</option>
+                    <option value='favoriteLanguage'>Favorite Language</option>
+                    <option value='date'>Date</option>
+                 </select>
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Fav Language</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat='user in users | filter:name_filter | orderBy:order_filter'>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.favoriteLanguage}}</td>
+            <td>{{user.date}}</td>
+            <td><button ng-click='delete($index)'>Delete User</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
