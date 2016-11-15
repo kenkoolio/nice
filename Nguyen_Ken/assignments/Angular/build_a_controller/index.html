@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+  <head>
+    <meta charset="utf-8">
+    <title>Build a Controller</title>
+    <script type="text/javascript" src='./bower_components/angular/angular.js' charset='utf-8'></script>
+    <script type="text/javascript">
+      var myApp = angular.module('app', []);
+      myApp.controller('thisController', ['$scope', function($scope){
+        $scope.favoriteFoods = [];
+        $scope.addFood = function(){
+          $scope.favoriteFoods.push($scope.food);
+          $scope.food = '';
+        };
+
+        $scope.clearArray = function(){
+          $scope.favoriteFoods = [];
+        };
+      }]);
+    </script>
+  </head>
+  <body>
+    <h1>What is your favorite food?</h1>
+    <div ng-controller='thisController'>
+      <label>Favorite Food <input type='text' ng-model='food'></label>
+      <button ng-click='addFood()'>Add Food</button>
+      <input type='text' ng-model='foodFilter' placeholder='filter...'>
+      <p>Currently typing: <span ng-bind='food'></span></p>
+      <div ng-if='favoriteFoods.length' style="border: 1px dashed red">
+        <p ng-repeat="food in favoriteFoods | filter:foodFilter">{{food}}</p>
+      </div>
+      <div ng-show='favoriteFoods.length % 2 == 0'>
+        <p>Your list of food is even</p>
+      </div>
+      <div ng-hide='favoriteFoods.length % 2 == 0'>
+        <p>Your list of food is odd</p>
+      </div>
+      <div ng-init="initText = 'filter excluded'">
+        <p ng-bind='initText'></p>
+      </div>
+      <form ng-submit='clearArray()'>
+        <input type='submit' value='Clear List'>
+      </form>
+    </div>
+  </body>
+</html>
