@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='myApp'>
+  <head>
+    <meta charset="utf-8">
+    <title>Products with a factory</title>
+    <script type='text/javascript' src='./bower_components/angular/angular.js'></script>
+    <script type='text/javascript' src='./mainModule.js'></script>
+    <script type='text/javascript' src='./productFactory.js'></script>
+    <script type='text/javascript' src='./productsController.js'></script>
+    <script type='text/javascript' src='./ordersController.js'></script>
+  </head>
+  <body>
+    <h1>Products Controller</h1>
+    <div id='productsDiv' ng-controller='productsController'>
+      <div id='addProductDiv'>
+        <form ng-submit="addProduct()">
+          <label for='name'>Product Name <input type='text' id='name' ng-model='newProduct.name'></label>
+          <label for='price'>Product Price <input type='number' id='price' ng-model='newProduct.price' step='any'></label>
+          <input type='submit' value='Add Product'>
+        </form>
+      </div>
+
+      <div id='showProductDiv'>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price <span ng-click='order()'>^</span></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+            <tr ng-repeat="product in allProducts | orderBy:sortPrice">
+              <td>{{product.name}}</td>
+              <td>{{product.price | currency}}</td>
+              <td><button ng-click='deleteProduct($index)'>Delete Product</button></td>
+            </tr>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h1>Orders Controller</h1>
+    <div id='ordersDiv' ng-controller='ordersController'>
+      <table>
+        <thead>
+          <tr>
+            <th>Name^</th>
+            <th>Price <span ng-click='order()'>^</span></th>
+            <th>Qty Available</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="product in allProducts | orderBy:sortPrice">
+            <td>{{product.name}}</td>
+            <td>{{product.price | currency}}</td>
+            <td>{{product.quantity}}</td>
+            <td><button ng-click="buy(product.name)">Buy</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
