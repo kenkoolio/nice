@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='myApp'>
+  <head>
+    <meta charset="utf-8">
+    <title>Products with a factory</title>
+    <script src='./bower_components/angular/angular.js'></script>
+    <script>
+      var myApp = angular.module('myApp', []);
+      myApp.controller('productsController', ['$scope', 'productFactory', function($scope, productFactory){
+        $scope.allProducts = productFactory.index();
+        $scope.newProduct = {};
+        $scope.addProduct = function(){
+          productFactory.add($scope.newProduct);
+          $scope.newProduct = {};
+        };
+        $scope.deleteProduct = function(index){
+          productFactory.delete(index);
+        };
+        $scope.sortPrice = "";
+        var count = 0;
+        $scope.order = function(){
+          if (count == 0){
+            $scope.sortPrice = "price";
+            count = 1;
+          } else {
+            $scope.sortPrice = "-price";
+            count = 0;
+          };
+        };
+      }]);
+
+      myApp.factory('productFactory', function(){
+        var productObj = {};
+        productObj.productList = [];
+        productObj.add = function(product){
+          productObj.productList.push(product);
+        };
+        productObj.delete = function(productIdx){
+          productObj.productList.splice(productIdx, 1);
+        };
+        productObj.index = function(){
+          return productObj.productList
+        }
+        return productObj
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Products Controller</h1>
+    <div ng-controller='productsController'>
+      <div id='addProductDiv'>
+        <form ng-submit="addProduct()">
+          <label for='name'>Product Name <input type='text' id='name' ng-model='newProduct.name'></label>
+          <label for='price'>Product Price <input type='number' id='price' ng-model='newProduct.price' step='any'></label>
+          <input type='submit' value='Add Product'>
+        </form>
+      </div>
+
+      <div id='showProductDiv'>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price <span ng-click='order()'>^</span></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+            <tr ng-repeat="product in allProducts | orderBy:sortPrice">
+              <td>{{product.name}}</td>
+              <td>{{product.price | currency}}</td>
+              <td><button ng-click='deleteProduct($index)'>Delete Product</button></td>
+            </tr>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
