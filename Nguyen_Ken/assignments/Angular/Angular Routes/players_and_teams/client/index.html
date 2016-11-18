@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='app'>
+  <head>
+    <meta charset="utf-8">
+    <title>Players and Teams</title>
+    <script src='/angular/angular.js' charset='utf-8'></script>
+    <script src='/angular-route/angular-route.js' charset='utf-8'></script>
+    <script src='/assets/app.js' charset='utf-8'></script>
+    <script src='/assets/config.js' charset='utf-8'></script>
+    <script src='/assets/playerFactory.js' charset='utf-8'></script>
+    <script src='/assets/PlayersController.js' charset='utf-8'></script>
+    <script src='/assets/teamFactory.js' charset='utf-8'></script>
+    <script src='/assets/TeamsController.js' charset='utf-8'></script>
+    <script src='/assets/AssociationsController.js' charset='utf-8'></script>
+    <script src='/assets/associationFactory.js' charset='utf-8'></script>
+  </head>
+  <body>
+    <div id='container'>
+      <a href='#/players'>Players</a>
+      <a href='#/teams'>Teams</a>
+      <a href='#/associations'>Associations</a>
+      <div ng-view>
+      </div>
+    </div><!-- container -->
+  </body>
+</html>

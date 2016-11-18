@@ -1,0 +1,33 @@
+<div>
+  <form ng-submit='create()'>
+    <select ng-model='association.player'>
+      <option value='' disabled selected='selected'>Pick a player..</option>
+      <option ng-repeat='player in players' value='{{player.name}}'>{{player.name}}</option>
+    </select>
+
+    <select ng-model='association.team'>
+      <option value='' disabled selected='selected'>Pick a team..</option>
+      <option ng-repeat='team in teams' value='{{team.name}}'>{{team.name}}</option>
+    </select>
+
+    <input type='submit' value='Assign Player to Team'>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="association in associations">
+        <td>{{association.player}}</td>
+        <td>{{association.team}}</td>
+        <td><button ng-click='remove($index)'>Clear Assignment</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
