@@ -1,0 +1,21 @@
+{
+  "name": "partials_and_custom_users",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "kenkoolio <kensoko0l@yahoo.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.8",
+    "angular": "^1.5.8"
+  }
+}

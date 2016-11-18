@@ -1,0 +1,33 @@
+<div>
+  <h1>Users Controller</h1>
+  <div id='createUserForm'>
+    <form ng-submit='createUser()'>
+      <label for='firstName'>First Name <input type='text' ng-model='newUser.firstName'></label>
+      <label for='lastName'>Last Name <input type='text' ng-model='newUser.lastName'></label>
+      <label for='languag'>Favorite Language <input type='text' ng-model='newUser.language'></label>
+      <input type='submit' value='Create User'>
+    </form>
+  </div><!-- createUserForm -->
+
+  <div id='allUsers'>
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Fav Language</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.language}}</td>
+          <td><button ng-click='deleteUser($index)'>Delete User</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- allUsers -->
+</div>
