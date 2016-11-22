@@ -1,0 +1,23 @@
+<div>
+  <a ng-href='#/friends/new'><button >Add new friend</button></a>
+  <input type='text' ng-model='bday_filter' placeholder='Filter: Birthday!'>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Show</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat='friend in friends | filter:bday_filter'>
+        <td>{{ friend.firstName }} {{ friend.lastName }}</td>
+        <td><a ng-href='#/friends/{{friend._id}}'><button>Show</button></a></td>
+        <td><a ng-href='#/friends/{{friend._id}}/edit'><button>Edit</button></a></td>
+        <td><button ng-click='delete(friend._id)'>Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
