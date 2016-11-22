@@ -1,0 +1,22 @@
+<div>
+  <a ng-href='#/friends/new'><button >Add new friend</button></a>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat='friend in friends'>
+        <td>{{ friend.name }}</td>
+        <td>{{ friend._id }}</td>
+        <td>{{ friend.createdAt | date}}</td>
+        <td><a ng-href='#/friends/{{friend._id}}/edit'><button>Edit</button></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
