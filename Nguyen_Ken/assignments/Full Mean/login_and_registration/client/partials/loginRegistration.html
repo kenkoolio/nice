@@ -1,0 +1,52 @@
+<div id='loginDiv' ng-controller='loginController'>
+  <h3>Login</h3>
+  <div ng-if='baderrors'>
+    <p ng-repeat="error in baderrors" ng-bind="error"></p>
+  </div>
+  <form ng-submit="login()" novalidate>
+    <label for='loginEmail'>
+      Email
+      <input type='email' ng-model='user.email' id='loginEmail' required>
+    </label>
+
+    <label for='loginPassword'>
+      Password
+      <input type='password' ng-model='user.password' id='loginPassword' required>
+    </label>
+    <input type='submit' value='Login'>
+  </form>
+</div>
+
+<div id='registrationDiv' ng-controller='usersController'>
+  <h3>New Account</h3>
+  <div ng-if='baderrors'>
+    <p ng-repeat='error in baderrors' ng-bind='error'></p>
+  </div>
+  <form ng-submit='create()' novalidate>
+    <label for='regEmail'>
+      Email
+      <input type='email' id='regEmail' ng-model='newUser.email' required>
+    </label>
+    <label for='regFirstName'>
+      First Name
+      <input type='text' id='regFirstName' ng-model='newUser.first_name' required>
+    </label>
+    <label for='regLastName'>
+      Last Name
+      <input type='text' id='regLastName' ng-model='newUser.last_name' required>
+    </label>
+    <label for='regPassword'>
+      Password
+      <input type='password' id='regPassword' ng-model='newUser.password' required>
+    </label>
+    <label for='regPasswordConfirmation'>
+      Password Confirmation
+      <input type='password' id='regPasswordConfirmation' ng-model='newUser.password_confirmation' required>
+    </label>
+    <label for='regBirthday'>
+      Birthday
+      <input type='date' max="2016-04-20" id='regBirthday' ng-model='newUser.birthday' required>
+    </label>
+    <input type='submit' value='Register'>
+  </form>
+</div>

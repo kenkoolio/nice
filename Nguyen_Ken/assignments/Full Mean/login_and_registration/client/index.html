@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head >
+  <meta charset="UTF-8">
+  <title>Mean Belt Exam</title>
+  <!-- <link rel="stylesheet" href="assets/css/main.css"> -->
+  <script src = 'angular/angular.js'></script>
+  <script src = 'angular-route/angular-route.js'></script>
+  <script src = 'angular-cookies/angular-cookies.js'></script>
+  <script src = "app/app.js" charset="utf-8"></script>
+  <script>
+    app.config(function($routeProvider){
+      $routeProvider
+      .when('/', {
+        templateUrl: "/partials/loginRegistration.html"
+      })
+      .when('/results', {
+        templateUrl: "/partials/results.html",
+        controller: "loginController"
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+    });
+
+    app.factory('userFactory', ['$http', function($http){
+      if(typeof(session) == 'undefined'){
+        var session = {};
+      };
+
+      function UserFactory(){
+        this.getUserInSession = function(){
+          return session.user;
+        };
+
+        this.logout = function(){
+          session = {};
+        };
+
+        this.login = function(User, callback){
+          $http.post('/login', User).then(function(returnedData){
+            if(typeof(returnedData.data.error) !== 'undefined'){
+              if(typeof(callback) === 'function'){
+                callback({'Error': returnedData.data.error});
+              };
+            } else if (typeof(returnedData.data.user) !== 'undefined'){
+              session.user = returnedData.data.user;
+              if(typeof(callback) === 'function'){
+                callback({'Success': returnedData.data.user});
+              };
+            };
+          });
+        };
+
+        this.create = function(User, callback){
+          $http.post('/users', User).then(function(returnedData){
+            if(typeof(returnedData.data.error) !== 'undefined'){
+              if (typeof(callback) == 'function'){
+                callback({'Error': returnedData.data.error});
+              };
+            } else if (typeof(returnedData.data.user) !== 'undefined'){
+              session.user = returnedData.data.user;
+              if (typeof(callback) == 'function'){
+                callback({'Success': returnedData.data.user});
+              };
+            };
+          });
+        };
+
+
+      };
+
+      return new UserFactory();
+    }]);
+
+    app.controller('loginController', ['$scope', 'userFactory', '$location', function($scope, userFactory, $location){
+      // to get user in session
+      $scope.userInSession = userFactory.getUserInSession();
+
+      $scope.logout = function(){
+        userFactory.logout();
+        $location.url('/');
+      };
+
+      $scope.login = function(){
+        $scope.baderrors = [];
+        if(typeof($scope.user) == 'undefined'){
+          $scope.user = {};
+        };
+        if(typeof($scope.user.email) == 'undefined'){
+          $scope.baderrors.push("Email is required");
+        };
+        if(typeof($scope.user.password) == 'undefined'){
+          $scope.baderrors.push("Password is required");
+        };
+
+        if((typeof($scope.user.email)!== 'undefined') && (typeof($scope.user.password)!== 'undefined')){
+          var User = {
+            email: $scope.user.email,
+            password: $scope.user.password
+          };
+
+          userFactory.login(User, function(returnedData){
+            if(typeof(returnedData.Error) !== 'undefined'){
+              var errors = returnedData.Error.errors;
+              $scope.baderrors = [];
+              for (var key in errors){
+                if(errors.hasOwnProperty(key)){
+                  $scope.baderrors.push(errors[key].message);
+                };
+              };
+            } else if(typeof(returnedData.Success) !== 'undefined'){
+              $location.url('/results');
+            };
+          });
+
+        };
+
+      };
+
+    }]);
+
+    app.controller('usersController', ['$scope', 'userFactory', '$location', function($scope, userFactory, $location){
+      $scope.newUser = {};
+
+      $scope.create = function(){
+        $scope.baderrors = [];
+        var User = {
+          email: $scope.newUser.email,
+          first_name: $scope.newUser.first_name,
+          last_name: $scope.newUser.last_name,
+          password: $scope.newUser.password,
+          birthday: $scope.newUser.birthday
+        };
+
+        if($scope.newUser.password === $scope.newUser.password_confirmation){
+          userFactory.create(User, function(returnedData){
+            if(typeof(returnedData.Error) !== 'undefined'){
+              var errors = returnedData.Error.errors;
+              $scope.baderrors = [];
+              for (var key in errors){
+                if (errors.hasOwnProperty(key)){
+                  $scope.baderrors.push(errors[key].message);
+                };
+              };
+
+            } else if (typeof(returnedData.Success) !== 'undefined'){
+              $location.url('/results');
+            }
+          });
+        } else {
+          $scope.baderrors.push("Your passwords do not match!");
+        }
+
+      };
+
+
+    }]);
+  </script>
+</head>
+<body>
+  <div ng-view>
+  </div>
+</body>
+</html>
